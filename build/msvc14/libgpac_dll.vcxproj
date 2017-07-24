@@ -137,10 +137,10 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>zlib.lib;winmm.lib;ws2_32.lib;ssleay32.lib;libeay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;winmm.lib;ws2_32.lib;ssleay32.lib;libeay32.lib;glew32.lib;glfw3.lib;LibOVR.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\extra_lib\lib\w32_deb;../../extra_lib/lib/$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\usr\LibOVR\project\src\LibOVR\OculusSDK\LibOVR\Lib\Windows\$(Platform)\$(Configuration)\VS2015;C:\usr\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\usr\glew-2.0.0\lib\Release\Win32;..\..\..\gpac_extra_libs\lib\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <ModuleDefinitionFile>
       </ModuleDefinitionFile>
@@ -238,7 +238,7 @@
       <AdditionalDependencies>zlib.lib;winmm.lib;ws2_32.lib;opengl32.lib;glu32.lib;ssleay32.lib;libeay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../extra_lib/lib/$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\usr\LibOVR\project\src\LibOVR\OculusSDK\LibOVR\Lib\Windows\$(Platform)\$(Configuration)\VS2015;C:\usr\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\usr\glew-2.0.0\lib\Release\Win32;..\..\..\gpac_extra_libs\lib\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>
       </ModuleDefinitionFile>
       <ProgramDatabaseFile>$(IntDir)$(ProjectName).pdb</ProgramDatabaseFile>

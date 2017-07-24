@@ -297,7 +297,7 @@ void gf_ovr_rift_draw(RiftGLApp *gf_ovr_RGA, GLFWApp *gf_ovr_GLA, RiftManagerApp
 		glViewport(vp.Pos.x, vp.Pos.y, vp.Size.w, vp.Size.h);
 		gf_ovr_RGA->_sceneLayer.RenderPose[eye] = eyePoses[eye];
 
-		gf_ovr_rift_sc_render_scene(gf_ovr_RGA, gf_ovr_RGA->_eyeProjections[eye], getHeadPose(eyePoses[eye]));
+		gf_ovr_rift_sc_render(gf_ovr_RGA, gf_ovr_RGA->_eyeProjections[eye], getHeadPose(eyePoses[eye]));
 	}
 
 	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, 0, 0);
@@ -328,16 +328,6 @@ void gf_ovr_rift_shutdown(void)
 void gf_ovr_rift_sc_constructor(RiftGLApp *gf_ovr_RGA)
 {
 	gf_ovr_RGA->program = 0;
-
-	/*gf_ovr_RGA->earth = NULL;
-	gf_ovr_RGA->earth = gluNewQuadric();
-	gluQuadricTexture(gf_ovr_RGA->earth, GL_TRUE);
-	gf_ovr_RGA->earthTexture = 100;
-	gf_ovr_RGA->earthTexture = gf_ovr_RGA_sc_LoadBitmap("EarthTexture.bmp");
-
-	fprintf(stderr, "gf_ovr_RGA_sc_constructor, earthTexture=%d\n", gf_ovr_RGA->earthTexture);*/
-
-
 }
 
 void gf_ovr_rift_sc_init_gl(RiftGLApp* gf_ovr_RGA, RiftManagerApp* gf_ovr_RMA) {
@@ -353,82 +343,8 @@ void gf_ovr_rift_sc_init_gl(RiftGLApp* gf_ovr_RGA, RiftManagerApp* gf_ovr_RMA) {
 	gf_ovr_sphere_init(&gf_ovr_RGA->sphere, 30, 30);
 }
 
-void gf_ovr_rift_sc_render_scene(RiftGLApp *gf_ovr_RGA, const ovrMatrix4f projection, const ovrMatrix4f headPose) {
+void gf_ovr_rift_sc_render(RiftGLApp *gf_ovr_RGA, const ovrMatrix4f projection, const ovrMatrix4f headPose) {
 
 	gf_ovr_sphere_draw(&gf_ovr_RGA->sphere);
 
-}
-
-void gf_ovr_rift_sc_render(RiftGLApp *gf_ovr_RGA, const ovrMatrix4f projection, const ovrMatrix4f headPose)
-{
-	fprintf(stderr, "%s\n", __FUNCTION_NAME__);
-
-	if (gf_ovr_RGA->program != 0)
-	{
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		glUseProgram(gf_ovr_RGA->program);
-
-		glBindVertexArray(gf_ovr_RGA->vaoID);
-
-		glEnableVertexAttribArray(8);
-		glBindBuffer(GL_ARRAY_BUFFER, gf_ovr_RGA->vboID);
-		glVertexAttribPointer(8, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
-
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		glDisableVertexAttribArray(8);
-
-		glBindVertexArray(0);
-
-		glUseProgram(0);
-	}
-	else
-	{
-		fprintf(stderr, "%s: no program\n", __FUNCTION_NAME__);
-		gf_ovr_RGA->program = gf_ovr_rift_sc_load_shaders();
-	}
-}
-
-
-
-GLuint gf_ovr_rift_sc_load_shaders(void)
-{
-	fprintf(stderr, "%s\n", __FUNCTION_NAME__);
-
-	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
-	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-	const char* rawVertShaderSource = "#version 330 core\n layout(location = 8) in vec3 in_pos;\n void main()\n {\n gl_Position.xyz = in_pos;\n gl_Position.w = 1;\n}";
-	const char* rawFragShaderSource = "#version 330 core\n out vec3 color;\n void main() \n{\n color = vec3(1, 1, 1);\n }";
-
-	glShaderSource(vertShader, 1, &rawVertShaderSource, NULL);
-	glShaderSource(fragShader, 1, &rawFragShaderSource, NULL);
-
-	glCompileShader(vertShader);
-	GLint result = GL_TRUE;
-	glGetShaderiv(vertShader, GL_COMPILE_STATUS, &result);
-	if (result != GL_TRUE) {
-		fprintf(stderr, "Vertex shader compilation failed..\n");
-	}
-	glCompileShader(fragShader);
-	result = GL_TRUE;
-	glGetShaderiv(fragShader, GL_COMPILE_STATUS, &result);
-	if (result != GL_TRUE) {
-		fprintf(stderr, "Fragment shader compilation failed..\n");
-	}
-
-	GLuint program = glCreateProgram();
-	glAttachShader(program, vertShader);
-	glAttachShader(program, fragShader);
-	glLinkProgram(program);
-	result = GL_TRUE;
-	glGetProgramiv(program, GL_LINK_STATUS, &result);
-	if (result != GL_TRUE) {
-		fprintf(stderr, "Linking failed..\n");
-	}
-
-	return program;
 }

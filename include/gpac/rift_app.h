@@ -56,9 +56,6 @@ int				gf_ovr_rift_run3(RiftGLApp* gf_ovr_RGA, GLFWApp* gf_ovr_GLA, RiftManagerA
 // scene
 void			gf_ovr_rift_sc_constructor(RiftGLApp* gf_ovr_RGA);
 void			gf_ovr_rift_sc_init_gl(RiftGLApp* gf_ovr_RGA, RiftManagerApp* gf_ovr_RMA);
-void			gf_ovr_rift_sc_render_scene(RiftGLApp* gf_ovr_RGA, const ovrMatrix4f projection, const ovrMatrix4f headPose);
 void			gf_ovr_rift_sc_render(RiftGLApp* gf_ovr_RGA, const ovrMatrix4f projection, const ovrMatrix4f headPose);
-
-GLuint			gf_ovr_rift_sc_load_shaders(void);
 
 #endif
