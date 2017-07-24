@@ -580,7 +580,7 @@
     </ResourceCompile>
     <Lib>
       <OutputFile>../../bin/$(Platform)\$(Configuration)/libgpac_static.lib</OutputFile>
-      <AdditionalLibraryDirectories>C:\usr\LibOVR\project\src\LibOVR\OculusSDK\LibOVR\Lib\Windows\$(Platform)\Debug\VS2015;C:\usr\glfw-3.2.1.bin.WIN32\lib-vc2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
     <Bscmake>
@@ -734,7 +734,7 @@
     <Lib>
       <OutputFile>../../bin/$(Platform)/$(Configuration)/libgpac_static.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>C:\usr\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\usr\LibOVR\project\src\LibOVR\OculusSDK\LibOVR\Lib\Windows\$(Platform)\Release\VS2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
