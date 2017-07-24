@@ -10,6 +10,12 @@
 #define APIENTRY
 #endif
 
+#ifdef _MSC_VER
+#define __FUNCTION_NAME__ __FUNCTION__
+#else
+#define __FUNCTION_NAME__ __func__
+#endif
+
 
 // TODO figure out alternative in Linux
 static void APIENTRY DebugCallback
@@ -27,10 +33,10 @@ static void APIENTRY DebugCallback
 }
 
 
-void ovr_sphere_init(SphereScene* sphere, int rings, int sectors)
+void gf_ovr_sphere_init(SphereScene* sphere, int rings, int sectors)
 {
 
-	fprintf(stderr, "gf_ovr_sphere_init\n");
+	fprintf(stderr, "%s\n", __FUNCTION_NAME__);
 
 	ovrMatrix4f identity = ovrMatrix4f_CreateIdentity();
 
@@ -46,9 +52,9 @@ void ovr_sphere_init(SphereScene* sphere, int rings, int sectors)
 	sphere->h_vboVertices = 0;
 	sphere->h_vboIndices = 0;
 
-	sphere->h_shaderProg = ovr_sphere_load_shaders();
+	sphere->h_shaderProg = gf_ovr_sphere_load_shaders();
 
-	fprintf(stderr, "gf_ovr_sphere_init, shaders are loaded\n");
+	fprintf(stderr, "%s: shaders are loaded\n", __FUNCTION_NAME__);
 
 	// get handles for uniform variables
 	sphere->h_projUniform = glGetUniformLocation(sphere->h_shaderProg, "proj");
@@ -146,7 +152,7 @@ void ovr_sphere_init(SphereScene* sphere, int rings, int sectors)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count_sphere_indices * sizeof(unsigned int), sphere->sphereIndices, GL_STATIC_DRAW);
 
 	// loading texture
-	ovr_sphere_load_texture(sphere);
+	gf_ovr_sphere_load_texture(sphere);
 
 	// setting some initial values to projection and model view 
 	// (these will be overwritten by the HMD values)
@@ -157,12 +163,12 @@ void ovr_sphere_init(SphereScene* sphere, int rings, int sectors)
 	//model_view = translation * orientation;
 	sphere->model_view = ovrMatrix4f_Transpose(&identity);
 
-	fprintf(stderr, "ovr_sphere_init, v count=%d\n", count_sphere_vertices);
-	fprintf(stderr, "ovr_sphere_init, i count=%d\n", count_sphere_indices);
+	fprintf(stderr, "%s: v count=%d\n", __FUNCTION_NAME__, count_sphere_vertices);
+	fprintf(stderr, "%s: i count=%d\n", __FUNCTION_NAME__, count_sphere_indices);
 }
 
 
-void ovr_sphere_load_texture(SphereScene* sphere)
+void gf_ovr_sphere_load_texture(SphereScene* sphere)
 {
 	int imgWidth;
 	int imgHeight;
@@ -172,10 +178,10 @@ void ovr_sphere_load_texture(SphereScene* sphere)
 
 	if (image == NULL)
 	{
-		fprintf(stderr, "ovr_sphere_load_texture, Failed to load texture image..\n");
+		fprintf(stderr, "%s: Failed to load texture image..\n", __FUNCTION_NAME__);
 	}
 
-	fprintf(stderr, "ovr_sphere_load_texture, Image was loaded from disk..\n");
+	fprintf(stderr, "%s: Image was loaded from disk..\n", __FUNCTION_NAME__);
 
 	// generate a texture object and bind it
 	glGenTextures(1, &sphere->h_texture);
@@ -197,10 +203,10 @@ void ovr_sphere_load_texture(SphereScene* sphere)
 	// unbind texture
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	fprintf(stderr, "ovr_sphere_load_texture, Texture created!\n");
+	fprintf(stderr, "%s: Texture created!\n", __FUNCTION_NAME__);
 }
 
-void ovr_sphere_draw(SphereScene* sphere)
+void gf_ovr_sphere_draw(SphereScene* sphere)
 {
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -259,9 +265,9 @@ void ovr_sphere_draw(SphereScene* sphere)
 
 
 
-GLuint ovr_sphere_load_shaders(void)
+GLuint gf_ovr_sphere_load_shaders(void)
 {
-	fprintf(stderr, "ovr_sphere_load_shaders\n");
+	fprintf(stderr, "%s\n", __FUNCTION_NAME__);
 
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
 	glDebugMessageCallbackARB(DebugCallback, 0);
@@ -271,13 +277,13 @@ GLuint ovr_sphere_load_shaders(void)
 
 	if (file_v == NULL)
 	{
-		fprintf(stderr, "ovr_sphere_load_shaders, unable to open %s\n", GF_OVR_SPHERE_VERTEX_SHADER);
+		fprintf(stderr, "%s: Unable to open %s\n", __FUNCTION_NAME__, GF_OVR_SPHERE_VERTEX_SHADER);
 	}
 
 	fseek(file_v, 0, SEEK_END);
 	long size = ftell(file_v);
 	fseek(file_v, 0, SEEK_SET);
-	fprintf(stderr, "ovr_sphere_load_shaders, size=%d\n", size);
+	fprintf(stderr, "%s: size=%d\n", __FUNCTION_NAME__, size);
 
 	char * fcontentV = malloc(size + 1);
 	long sz = fread(fcontentV, 1, size, file_v);
@@ -285,7 +291,7 @@ GLuint ovr_sphere_load_shaders(void)
 
 	if (sz != size)
 	{
-		fprintf(stderr, "ovr_sphere_load_shaders, sz=%d\n", sz);
+		fprintf(stderr, "%s: sz=%d\n", __FUNCTION_NAME__, sz);
 	}
 
 	fclose(file_v);
@@ -295,7 +301,7 @@ GLuint ovr_sphere_load_shaders(void)
 	fseek(file_f, 0, SEEK_END);
 	size = ftell(file_f);
 	fseek(file_f, 0, SEEK_SET);
-	fprintf(stderr, "ovr_sphere_load_shaders, size=%d\n", size);
+	fprintf(stderr, "%s: size=%d\n", __FUNCTION_NAME__, size);
 
 
 	char * fcontentF = malloc(size + 1);
@@ -307,17 +313,17 @@ GLuint ovr_sphere_load_shaders(void)
 	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
 	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	fprintf(stderr, "ovr_sphere_load_shaders, vertex shader id = %d\n", vertShader);
-	fprintf(stderr, "ovr_sphere_load_shaders, fragment shader id = %d\n", fragShader);
+	fprintf(stderr, "%s: vertex shader id = %d\n", __FUNCTION_NAME__, vertShader);
+	fprintf(stderr, "%s: fragment shader id = %d\n", __FUNCTION_NAME__, fragShader);
 
-	fprintf(stderr, "ovr_sphere_load_shaders, vertex:\n%s\n", fcontentV);
-	fprintf(stderr, "ovr_sphere_load_shaders, fragment:\n%s\n", fcontentF);
+	fprintf(stderr, "%s: vertex:\n%s\n", __FUNCTION_NAME__, fcontentV);
+	fprintf(stderr, "%s: fragment:\n%s\n", __FUNCTION_NAME__, fcontentF);
 
 
 	glShaderSource(vertShader, 1, &fcontentV, NULL);
 	glShaderSource(fragShader, 1, &fcontentF, NULL);
 
-	fprintf(stderr, "ovr_sphere_load_shaders, call glCompileShader\n");
+	fprintf(stderr, "%s: Call glCompileShader\n", __FUNCTION_NAME__);
 
 	glCompileShader(vertShader);
 	GLenum err = glGetError();
@@ -327,7 +333,7 @@ GLuint ovr_sphere_load_shaders(void)
 	GLint result = GL_TRUE;
 	glGetShaderiv(vertShader, GL_COMPILE_STATUS, &result);
 	if (result != GL_TRUE) {
-		fprintf(stderr, "ovr_sphere_load_shaders, Vertex shader compilation failed..\n");
+		fprintf(stderr, "%s: Vertex shader compilation failed..\n", __FUNCTION_NAME__);
 	}
 	glCompileShader(fragShader);
 	err = glGetError();
@@ -337,7 +343,7 @@ GLuint ovr_sphere_load_shaders(void)
 	result = GL_TRUE;
 	glGetShaderiv(fragShader, GL_COMPILE_STATUS, &result);
 	if (result != GL_TRUE) {
-		fprintf(stderr, "ovr_sphere_load_shaders, Fragment shader compilation failed..\n");
+		fprintf(stderr, "%s: Fragment shader compilation failed..\n", __FUNCTION_NAME__);
 	}
 
 	GLuint program = glCreateProgram();
@@ -360,7 +366,7 @@ GLuint ovr_sphere_load_shaders(void)
 	result = GL_TRUE;
 	glGetProgramiv(program, GL_LINK_STATUS, &result);
 	if (result != GL_TRUE) {
-		fprintf(stderr, "ovr_sphere_load_shaders, Linking failed..\n");
+		fprintf(stderr, "%s: Linking failed..\n", __FUNCTION_NAME__);
 
 	}
 
@@ -375,7 +381,7 @@ GLuint ovr_sphere_load_shaders(void)
 	glDeleteShader(fragShader);
 
 
-	fprintf(stderr, "ovr_sphere_load_shaders, Shader program ready..\n");
+	fprintf(stderr, "%s: Shader program ready..\n", __FUNCTION_NAME__);
 
 	return program;
 }

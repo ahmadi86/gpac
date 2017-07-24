@@ -1,5 +1,11 @@
 #include <gpac/glfw_app.h>
 
+#ifdef _MSC_VER
+#define __FUNCTION_NAME__ __FUNCTION__
+#else
+#define __FUNCTION_NAME__ __func__
+#endif
+
 void __stdcall glDebugCallbackHandler(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *msg, GLvoid* data) {
 	printf("glDebugCallbackHandler, %s\n", msg);
 }
@@ -8,7 +14,7 @@ GLFWwindow* ovr_glfw_create_window(const ovrVector2i size, const ovrVector2i pos
 {
 	GLFWwindow* window = glfwCreateWindow(size.x, size.y, "glfw", NULL, NULL);
 	if (!window) {
-		printf("ovr_glfw_create_window, Unable to create rendering window\n");
+		printf("%s: Unable to create rendering window\n", __FUNCTION_NAME__);
 		return NULL;
 	}
 	if ((position.x > INT_MIN) && (position.y > INT_MIN)) {
@@ -19,7 +25,7 @@ GLFWwindow* ovr_glfw_create_window(const ovrVector2i size, const ovrVector2i pos
 
 void ovr_glfw_error_callback(int error, const char* description) {
 
-	printf("ovr_glfw_error_callback, %s\n", description);
+	printf("%s: %s\n", __FUNCTION_NAME__, description);
 
 }
 
@@ -30,10 +36,10 @@ void ovr_glfw_constructor(GLFWApp *gf_ovr_GLA)
 	gf_ovr_GLA->window = NULL;
 
 	if (!glfwInit()) {
-		printf("ovr_glfw_constructor, Failed to initialize GLFW\n");
+		printf("%s: Failed to initialize GLFW\n", __FUNCTION_NAME__);
 	}
 	else {
-		printf("ovr_glfw_constructor, Successfully initialized GLFW\n");
+		printf("%s: Successfully initialized GLFW\n", __FUNCTION_NAME__);
 	}
 
 	glfwSetErrorCallback(ovr_glfw_error_callback);
@@ -62,7 +68,7 @@ void ovr_glfw_pre_create(void) {
 
 void ovr_glfw_post_create(GLFWApp *gf_ovr_GLA) {
 
-	printf("ovr_glfw_post_create\n");
+	printf("%s\n", __FUNCTION_NAME__);
 
 	glfwSetWindowUserPointer(gf_ovr_GLA->window, gf_ovr_GLA);
 	glfwSetKeyCallback(gf_ovr_GLA->window, ovr_glfw_key_callback);
@@ -75,12 +81,12 @@ void ovr_glfw_post_create(GLFWApp *gf_ovr_GLA) {
 	// init GLEW if we use a core context.
 	glewExperimental = GL_TRUE;
 	if (GLEW_OK != glewInit()) {
-		printf("ovr_glfw_post_create, Failed to initialize GLEW\n");
+		printf("%s: Failed to initialize GLEW\n", __FUNCTION_NAME__);
 		return;
 	}
 	glGetError();
 
-	printf("OpenGL version supported by this platorm is %s\n", glGetString(GL_VERSION));
+	printf("%s: OpenGL version supported by this platorm is %s\n", __FUNCTION_NAME__, glGetString(GL_VERSION));
 
 	if (GLEW_KHR_debug) {
 		GLint v;

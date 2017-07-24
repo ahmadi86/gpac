@@ -32,43 +32,43 @@ typedef struct SphereVertex_ {
 typedef struct SphereScene_
 {
 
-	SphereVertex* sphereVertices;
-	GLuint* sphereIndices;
+	SphereVertex*			sphereVertices;
+	GLuint*					sphereIndices;
 
-	GLuint h_vao;
-	GLuint h_vboVertices;
-	GLuint h_vboIndices;
+	GLuint					h_vao;
+	GLuint					h_vboVertices;
+	GLuint					h_vboIndices;
 
-	float radius;
-	int indexCount;
+	float					radius;
+	int						indexCount;
 
 	// handle for shader program
-	GLuint h_shaderProg;
+	GLuint					h_shaderProg;
 
 	// handle for texture object
-	GLuint h_texture;
+	GLuint					h_texture;
 
 	// handles for uniform variables in shader program
-	GLuint h_texUniform;
-	GLuint h_projUniform;
-	GLuint h_modelViewUniform;
-	GLuint h_texMatUniform;
-	GLuint h_srcFmtUnifrom;
+	GLuint					h_texUniform;
+	GLuint					h_projUniform;
+	GLuint					h_modelViewUniform;
+	GLuint					h_texMatUniform;
+	GLuint					h_srcFmtUnifrom;
 
 	// these will be passed to vertex shader
-	ovrMatrix4f model_view;
-	ovrMatrix4f projection;
+	ovrMatrix4f				model_view;
+	ovrMatrix4f				projection;
 
 	//
-	ovrMatrix4f texMat;
+	ovrMatrix4f				texMat;
 
 } SphereScene;
 
 
-void ovr_sphere_init(SphereScene* sphere, int rings, int sectors);
-void ovr_sphere_draw(SphereScene* sphere);
-void ovr_sphere_load_texture(SphereScene* sphere);
-GLuint ovr_sphere_load_shaders(void);
+void			gf_ovr_sphere_init(SphereScene* sphere, int rings, int sectors);
+void			gf_ovr_sphere_draw(SphereScene* sphere);
+void			gf_ovr_sphere_load_texture(SphereScene* sphere);
+GLuint			gf_ovr_sphere_load_shaders(void);
 
 
 

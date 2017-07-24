@@ -15,9 +15,9 @@ typedef struct RiftManagerApp_
 } RiftManagerApp;
 
 
-static void OVR_CDECL ovr_LogCallback(uintptr_t userData, int level, const char* message);
+static void OVR_CDECL gf_ovr_LogCallback(uintptr_t userData, int level, const char* message);
 
-void gf_ovr_rift_manager_constructor(RiftManagerApp* gf_ovr_RMA);
-void gf_ovr_rift_manager_deconstructor(RiftManagerApp* gf_ovr_RMA);
+void		gf_ovr_rift_manager_constructor(RiftManagerApp* gf_ovr_RMA);
+void		gf_ovr_rift_manager_deconstructor(RiftManagerApp* gf_ovr_RMA);
 
 #endif
