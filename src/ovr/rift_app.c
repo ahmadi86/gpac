@@ -2,6 +2,11 @@
 
 void gf_ovr_rift_constructor(RiftGLApp *gf_ovr_RGA, GLFWApp *gf_ovr_GLA, RiftManagerApp *gf_ovr_RMA)
 {
+	printf("gf_ovr_rift_constructor()\n");
+
+	// Ahmed: Should make sure struct memebers are initialized once
+	memset(gf_ovr_RGA, 0, sizeof(RiftGLApp));
+
 	gf_ovr_RGA->_eyeTexture = NULL;
 
 	printf("ovr_rift_constructor, call ovr_rift_manager_constructor\n");

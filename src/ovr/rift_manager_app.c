@@ -16,6 +16,10 @@ static void OVR_CDECL ovr_LogCallback(uintptr_t userData, int level, const char*
 
 void  gf_ovr_rift_manager_constructor(RiftManagerApp* gf_ovr_RMA)
 {
+
+	// Ahmed: Should make sure struct members are initialized once
+	memset(gf_ovr_RMA, 0, sizeof(RiftManagerApp));
+
 	ovrInitParams params = { 0, 0, NULL, 0, 0, OVR_ON64("") };
 	params.LogCallback = ovr_LogCallback;
 	ovrResult error = ovr_Initialize(NULL);

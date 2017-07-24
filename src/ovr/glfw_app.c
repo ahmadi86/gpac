@@ -25,6 +25,8 @@ void ovr_glfw_error_callback(int error, const char* description) {
 
 void ovr_glfw_constructor(GLFWApp *gf_ovr_GLA)
 {
+	memset(gf_ovr_GLA, 0, sizeof(GLFWApp));
+
 	gf_ovr_GLA->window = NULL;
 
 	if (!glfwInit()) {

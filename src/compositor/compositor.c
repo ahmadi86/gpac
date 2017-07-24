@@ -35,6 +35,12 @@
 #include "visual_manager.h"
 #include "texturing.h"
 
+#include <gpac/rift_app.h>
+
+static RiftManagerApp gf_ovr_rift_mgr;
+static RiftGLApp gf_ovr_rift;
+static GLFWApp gf_ovr_mirror;
+
 static void gf_sc_recompute_ar(GF_Compositor *compositor, GF_Node *top_node);
 
 #define SC_DEF_WIDTH	320
@@ -389,6 +395,13 @@ static GF_Err gf_sc_load(GF_Compositor *compositor)
 
 static GF_Err gf_sc_create(GF_Compositor *compositor)
 {
+
+	//
+	gf_ovr_rift_constructor(&gf_ovr_rift, &gf_ovr_mirror, &gf_ovr_rift_mgr);
+
+	//
+	gf_ovr_rift_run1(&gf_ovr_rift, &gf_ovr_mirror, &gf_ovr_rift_mgr);
+
 	const char *sOpt;
 
 	/*load video out*/
@@ -2289,6 +2302,9 @@ static void gf_sc_setup_root_visual(GF_Compositor *compositor, GF_Node *top_node
 
 static void gf_sc_draw_scene(GF_Compositor *compositor)
 {
+
+	gf_ovr_rift_run2(&gf_ovr_rift, &gf_ovr_mirror, &gf_ovr_rift_mgr);
+
 	u32 flags;
 
 	GF_Node *top_node = gf_sg_get_root_node(compositor->scene);
