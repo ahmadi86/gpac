@@ -40,6 +40,11 @@ typedef struct RiftGLApp_
 	// scene sphere
 	SphereScene				sphere;
 
+	// handles for video textures (each channel one texture)
+	GLuint					video_texture_Y;
+	GLuint					video_texture_U;
+	GLuint					video_texture_V;
+
 } RiftGLApp;
 
 
