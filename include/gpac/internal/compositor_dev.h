@@ -589,6 +589,11 @@ struct __tag_compositor
 
 	Bool gazer_enabled, simulate_gaze;
 	s32 gaze_x, gaze_y;
+
+	// Did't use directly structs, 'casue including them here conflicts with GPAC's GL settings 
+	void* gf_ovr_rift_mgr;
+	void* gf_ovr_rift;
+	void* gf_ovr_mirror;
 };
 
 typedef struct

@@ -395,6 +395,9 @@ static GF_Err gf_sc_load(GF_Compositor *compositor)
 
 static GF_Err gf_sc_create(GF_Compositor *compositor)
 {
+	compositor->gf_ovr_rift_mgr = &gf_ovr_rift_mgr;
+	compositor->gf_ovr_rift = &gf_ovr_rift;
+	compositor->gf_ovr_mirror = &gf_ovr_mirror;
 
 	//
 	gf_ovr_rift_constructor(&gf_ovr_rift, &gf_ovr_mirror, &gf_ovr_rift_mgr);
