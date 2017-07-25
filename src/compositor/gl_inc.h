@@ -30,6 +30,7 @@
 #include <windows.h>
 #endif
 
+#include <GL\glew.h>
 
 #ifndef _GF_SETUP_H_
 #error "Missing gpac/setup.h include"
