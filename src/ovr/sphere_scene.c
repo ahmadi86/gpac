@@ -38,6 +38,8 @@ void gf_ovr_sphere_init(SphereScene* sphere, int rings, int sectors)
 
 	fprintf(stderr, "%s\n", __FUNCTION_NAME__);
 
+	sphere->radius = 1.0f;
+
 	ovrMatrix4f identity = ovrMatrix4f_CreateIdentity();
 
 	//
@@ -81,9 +83,9 @@ void gf_ovr_sphere_init(SphereScene* sphere, int rings, int sectors)
 
 			float theta = j * thetaStep;
 
-			float x = sphere->radius * sinf(SPHERE_PI) * cosf(theta);
-			float y = sphere->radius * cosf(SPHERE_PI);
-			float z = sphere->radius * sinf(SPHERE_PI) * sinf(theta);
+			float x = sphere->radius * sinf(phi) * cosf(theta);
+			float y = sphere->radius * cosf(phi);
+			float z = sphere->radius * sinf(phi) * sinf(theta);
 
 			float u = theta / SPHERE_2PI;
 			float v = phi / SPHERE_PI;
