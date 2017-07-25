@@ -152,6 +152,37 @@ int gf_ovr_rift_init_gl(RiftGLApp *gf_ovr_RGA, RiftManagerApp *gf_ovr_RMA)
 
 	gf_ovr_rift_sc_init_gl(gf_ovr_RGA, gf_ovr_RMA);
 
+	// video texture	
+	// Y
+	gf_ovr_RGA->video_texture_Y = 0;
+	glGenTextures(1, &gf_ovr_RGA->video_texture_Y);
+	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->video_texture_Y);
+	//	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	// U
+	gf_ovr_RGA->video_texture_U = 0;
+	glGenTextures(1, &gf_ovr_RGA->video_texture_U);
+	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->video_texture_U);
+	//	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	// V
+	gf_ovr_RGA->video_texture_V = 0;
+	glGenTextures(1, &gf_ovr_RGA->video_texture_V);
+	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->video_texture_V);
+	//	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	return 0;
 }
 
