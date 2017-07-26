@@ -227,6 +227,8 @@ int gf_ovr_rift_run2(RiftGLApp *gf_ovr_RGA, GLFWApp *gf_ovr_GLA, RiftManagerApp 
 	{
 		//fprintf(stderr, "gf_ovr_RGA_run2, window not null\n");
 
+
+		// If this function is not run in a seperate thread, then we should consider changing while to if   
 		while (!glfwWindowShouldClose(gf_ovr_GLA->window)) {
 
 			//fprintf(stderr, "ovr_rift_run2, valid window\n");
