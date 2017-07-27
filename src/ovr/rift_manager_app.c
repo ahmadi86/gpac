@@ -29,7 +29,7 @@ void  gf_ovr_rift_manager_constructor(RiftManagerApp* gf_ovr_RMA)
 
 	ovrInitParams params = { 0, 0, NULL, 0, 0, OVR_ON64("") };
 	params.LogCallback = gf_ovr_LogCallback;
-	ovrResult error = ovr_Initialize(NULL);
+	ovrResult error = ovr_Initialize(&params);
 
 	if (!OVR_SUCCESS(error))
 	{

@@ -30,6 +30,7 @@
 #include <windows.h>
 #endif
 
+//#include <GL\glew.h>
 
 #ifndef _GF_SETUP_H_
 #error "Missing gpac/setup.h include"
@@ -510,6 +511,15 @@ GLDECL(GLint, glGetAttribLocation, (GLuint prog, const char *name) )
 #endif //GL_VERSION_2_0
 
 // Ahmed
+typedef char GLchar;
+#define GL_READ_FRAMEBUFFER 0x8CA8
+#define GL_DRAW_FRAMEBUFFER 0x8CA9
+#define GL_COLOR_ATTACHMENT0 0x8CE0
+#define GL_DEPTH_COMPONENT16 0x81A5
+#define GL_RENDERBUFFER 0x8D41
+#define GL_DEPTH_ATTACHMENT 0x8D00
+#define GL_DEBUG_OUTPUT_SYNCHRONOUS 0x8242
+
 GLDECL(void, glGenVertexArrays, (GLsizei n, GLuint* arrays) )
 GLDECL(void, glBindVertexArray, (GLuint array) )
 GLDECL(void, glGenFramebuffers, (GLsizei n, GLuint* framebuffers) )

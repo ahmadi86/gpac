@@ -155,6 +155,37 @@ int gf_ovr_rift_init_gl(RiftGLApp *gf_ovr_RGA, RiftManagerApp *gf_ovr_RMA)
 
 	gf_ovr_rift_sc_init_gl(gf_ovr_RGA, gf_ovr_RMA);
 
+	// video texture	
+	// Y
+	gf_ovr_RGA->video_texture_Y = 0;
+	glGenTextures(1, &gf_ovr_RGA->video_texture_Y);
+	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->video_texture_Y);
+	//	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	// U
+	gf_ovr_RGA->video_texture_U = 0;
+	glGenTextures(1, &gf_ovr_RGA->video_texture_U);
+	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->video_texture_U);
+	//	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	// V
+	gf_ovr_RGA->video_texture_V = 0;
+	glGenTextures(1, &gf_ovr_RGA->video_texture_V);
+	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->video_texture_V);
+	//	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	return 0;
 }
 
@@ -199,6 +230,8 @@ int gf_ovr_rift_run2(RiftGLApp *gf_ovr_RGA, GLFWApp *gf_ovr_GLA, RiftManagerApp 
 	{
 		//fprintf(stderr, "gf_ovr_RGA_run2, window not null\n");
 
+
+		// If this function is not run in a seperate thread, then we should consider changing while to if   
 		while (!glfwWindowShouldClose(gf_ovr_GLA->window)) {
 
 			//fprintf(stderr, "ovr_rift_run2, valid window\n");
@@ -254,7 +287,7 @@ void gf_ovr_rift_onKey(GLFWApp *gf_ovr_GLA, RiftManagerApp *gf_ovr_RMA, int key,
 
 }
 
-ovrMatrix4f getHeadPose(ovrPosef pose)
+ovrMatrix4f gf_ovr_get_model_view(ovrPosef pose)
 {
 	ovrMatrix4f out = ovrMatrix4f_CreateIdentity();
 
@@ -300,7 +333,7 @@ void gf_ovr_rift_draw(RiftGLApp *gf_ovr_RGA, GLFWApp *gf_ovr_GLA, RiftManagerApp
 		glViewport(vp.Pos.x, vp.Pos.y, vp.Size.w, vp.Size.h);
 		gf_ovr_RGA->_sceneLayer.RenderPose[eye] = eyePoses[eye];
 
-		gf_ovr_rift_sc_render(gf_ovr_RGA, gf_ovr_RGA->_eyeProjections[eye], getHeadPose(eyePoses[eye]));
+		gf_ovr_rift_sc_render(gf_ovr_RGA, gf_ovr_RGA->_eyeProjections[eye], gf_ovr_get_model_view(eyePoses[eye]));
 	}
 
 	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, 0, 0);
@@ -343,10 +376,14 @@ void gf_ovr_rift_sc_init_gl(RiftGLApp* gf_ovr_RGA, RiftManagerApp* gf_ovr_RMA) {
 	ovr_RecenterTrackingOrigin(gf_ovr_RMA->_session);
 
 	// generate a sphere mesh using 30 rings and 30 sectors
-	gf_ovr_sphere_init(&gf_ovr_RGA->sphere, 30, 30);
+	gf_ovr_sphere_init(&gf_ovr_RGA->sphere, 100, 100);
 }
 
-void gf_ovr_rift_sc_render(RiftGLApp *gf_ovr_RGA, const ovrMatrix4f projection, const ovrMatrix4f headPose) {
+void gf_ovr_rift_sc_render(RiftGLApp *gf_ovr_RGA, const ovrMatrix4f projection, const ovrMatrix4f modelView) {
+
+	gf_ovr_RGA->sphere.projection = ovrMatrix4f_Transpose(&projection);
+	ovrMatrix4f tmp = ovrMatrix4f_Inverse(&modelView);
+	gf_ovr_RGA->sphere.model_view = ovrMatrix4f_Transpose(&tmp);
 
 	gf_ovr_sphere_draw(&gf_ovr_RGA->sphere);
 

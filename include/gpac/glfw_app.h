@@ -1,15 +1,15 @@
 #ifndef OVR_GLFW_APP
 #define OVR_GLFW_APP
 
-#include<stdio.h>
+#include <stdio.h>
 
 #include <OVR_CAPI.h>
 #include <OVR_CAPI_GL.h>
 
 #include <Windows.h>
-//#include <GL/glew.h>
-#include <GL\GL.h>
-#include <GL\glext.h>
+#include <GL/GL.h>
+#include <gpac/setup.h>
+#include "../Src/compositor/gl_inc.h"
 
 #include <GLFW/glfw3.h>
 

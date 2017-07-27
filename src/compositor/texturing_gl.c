@@ -29,6 +29,8 @@
 #include "nodes_stacks.h"
 #include "gl_inc.h"
 
+#include <gpac/rift_app.h>
+
 #ifdef GPAC_USE_TINYGL
 # define GLTEXENV	glTexEnvi
 # define GLTEXPARAM	glTexParameteri
@@ -42,6 +44,7 @@
 # define GLTEXPARAM	glTexParameteri
 # define TexEnvType Float
 #endif
+
 
 
 /*tx flags*/
@@ -1248,6 +1251,27 @@ Bool gf_sc_texture_push_image(GF_TextureHandler *txh, Bool generate_mipmaps, Boo
 			do_tex_image_2d(txh, tx_mode, first_load, pY, stride_luma, w, h, txh->tx_io->pbo_id);
 			GL_CHECK_ERR
 
+			GLuint ovr_video_texture_y = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_Y;
+			fprintf(stderr, "gf_sc_texture_push_image, video_texture_Y=%d\n", ovr_video_texture_y);
+
+			if (ovr_video_texture_y != 0)
+			{
+				glBindTexture(GL_TEXTURE_2D, ovr_video_texture_y);
+				GL_CHECK_ERR
+
+					if (first_load) {
+						glTexImage2D(txh->tx_io->gl_type, 0, tx_mode, w, h, 0, txh->tx_io->gl_format, txh->tx_io->gl_dtype, pY);
+						GL_CHECK_ERR
+					}
+					else {
+						glTexSubImage2D(txh->tx_io->gl_type, 0, 0, 0, w, h, txh->tx_io->gl_format, txh->tx_io->gl_dtype, pY);
+						GL_CHECK_ERR
+					}
+
+					glBindTexture(GL_TEXTURE_2D, 0);
+					GL_CHECK_ERR
+			}
+
 			/*
 			 * Note: GF_PIXEL_NV21 is default for Android camera review. First wxh bytes is the Y channel,
 			 * the following (wxh)/2 bytes is UV plane.
@@ -1262,6 +1286,7 @@ Bool gf_sc_texture_push_image(GF_TextureHandler *txh, Bool generate_mipmaps, Boo
 				GL_CHECK_ERR
 			} 
 			else if (txh->pixelformat == GF_PIXEL_YV12_10 || txh->pixelformat == GF_PIXEL_YV12 ) {
+				fprintf(stderr, "gf_sc_texture_push_image, pU, pV\n");
 				glBindTexture(txh->tx_io->gl_type, txh->tx_io->u_id);
 				do_tex_image_2d(txh, tx_mode, first_load, pU, stride_chroma, w/2, h/2, txh->tx_io->u_pbo_id);
 				GL_CHECK_ERR
@@ -1269,6 +1294,48 @@ Bool gf_sc_texture_push_image(GF_TextureHandler *txh, Bool generate_mipmaps, Boo
 				glBindTexture(txh->tx_io->gl_type, txh->tx_io->v_id);
 				do_tex_image_2d(txh, tx_mode, first_load, pV, stride_chroma, w/2, h/2, txh->tx_io->v_pbo_id);
 				GL_CHECK_ERR
+
+				GLuint ovr_video_texture_u = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_U;
+				fprintf(stderr, "gf_sc_texture_push_image, video_texture_U=%d\n", ovr_video_texture_u);
+
+				if (ovr_video_texture_u != 0)
+				{
+					glBindTexture(GL_TEXTURE_2D, ovr_video_texture_u);
+					GL_CHECK_ERR
+
+						if (first_load) {
+							glTexImage2D(txh->tx_io->gl_type, 0, tx_mode, w/2, h/2, 0, txh->tx_io->gl_format, txh->tx_io->gl_dtype, pU);
+							GL_CHECK_ERR
+						}
+						else {
+							glTexSubImage2D(txh->tx_io->gl_type, 0, 0, 0, w/2, h/2, txh->tx_io->gl_format, txh->tx_io->gl_dtype, pU);
+							GL_CHECK_ERR
+						}
+
+						glBindTexture(GL_TEXTURE_2D, 0);
+						GL_CHECK_ERR
+				}
+
+				GLuint ovr_video_texture_v = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_V;
+				fprintf(stderr, "gf_sc_texture_push_image, video_texture_V=%d\n", ovr_video_texture_v);
+
+				if (ovr_video_texture_v != 0)
+				{
+					glBindTexture(GL_TEXTURE_2D, ovr_video_texture_v);
+					GL_CHECK_ERR
+
+						if (first_load) {
+							glTexImage2D(txh->tx_io->gl_type, 0, tx_mode, w / 2, h / 2, 0, txh->tx_io->gl_format, txh->tx_io->gl_dtype, pV);
+							GL_CHECK_ERR
+						}
+						else {
+							glTexSubImage2D(txh->tx_io->gl_type, 0, 0, 0, w / 2, h / 2, txh->tx_io->gl_format, txh->tx_io->gl_dtype, pV);
+							GL_CHECK_ERR
+						}
+
+						glBindTexture(GL_TEXTURE_2D, 0);
+						GL_CHECK_ERR
+				}
 			}
 			else if (txh->pixelformat == GF_PIXEL_YUV422_10 || txh->pixelformat == GF_PIXEL_YUV422) {
 				

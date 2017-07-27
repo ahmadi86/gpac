@@ -395,6 +395,9 @@ static GF_Err gf_sc_load(GF_Compositor *compositor)
 
 static GF_Err gf_sc_create(GF_Compositor *compositor)
 {
+	compositor->gf_ovr_rift_mgr = &gf_ovr_rift_mgr;
+	compositor->gf_ovr_rift = &gf_ovr_rift;
+	compositor->gf_ovr_mirror = &gf_ovr_mirror;
 
 	//
 	gf_ovr_rift_constructor(&gf_ovr_rift, &gf_ovr_mirror, &gf_ovr_rift_mgr);
@@ -2299,13 +2302,13 @@ static void gf_sc_setup_root_visual(GF_Compositor *compositor, GF_Node *top_node
 	}
 }
 
-
+static int count_calls = 0;
 static void gf_sc_draw_scene(GF_Compositor *compositor)
 {
-
-	gf_ovr_rift_run2(&gf_ovr_rift, &gf_ovr_mirror, &gf_ovr_rift_mgr);
-
 	u32 flags;
+	u32 count, i;
+	u32 ysize, usize, vsize;
+	char *pY, *pU, *pV;
 
 	GF_Node *top_node = gf_sg_get_root_node(compositor->scene);
 
@@ -2315,6 +2318,126 @@ static void gf_sc_draw_scene(GF_Compositor *compositor)
 		compositor->skip_flush = 1;
 		return;
 	}
+	
+	count = gf_list_count(compositor->textures);
+	for (i = 0; i<count; i++) {
+		GF_TextureHandler *txh = (GF_TextureHandler *)gf_list_get(compositor->textures, i);
+		if (!txh) break;
+		//this is not a natural (video) texture
+		if (!txh->stream) continue;
+
+		if ((txh->stream_finished && txh->tx_io)) continue;
+			
+		if (!txh->data) continue;
+
+		fprintf(stderr, "gf_sc_draw_scene, node=%s\n", gf_node_get_name(txh->owner));
+		
+		count_calls++;
+
+		ysize = txh->stride*txh->height;
+		usize = ysize / 4;
+		vsize = ysize / 4;
+
+		fprintf(stderr, "gf_sc_draw_scene, h=%d, w=%d, size=%d, ysize=%d, usize=%d, vsize=%d\n", txh->height, txh->stride, txh->size, ysize, usize, vsize);
+
+		//{
+		//	char filename[100] = "\0";
+		//	sprintf(filename, "%d", count_calls);
+		//	strcat(filename, "_frame.yuv");
+		//	fprintf(stderr, "gf_sc_draw_scene, f=%s\n", filename);
+
+		//	FILE *file_frame;
+		//	file_frame = fopen(filename, "wb");
+		//	if (file_frame)
+		//	{
+		//		fwrite(txh->data, txh->size, 1, file_frame);
+		//	}
+		//	fclose(file_frame);
+		//}
+
+		pY = txh->data;
+		pU = pY + ysize;
+		pV = pU + usize;
+
+		//GLuint ovr_video_texture_y = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_Y;
+		GLuint ovr_video_texture_y = gf_ovr_rift.video_texture_Y;
+		fprintf(stderr, "gf_sc_texture_push_image, video_texture_Y=%d\n", ovr_video_texture_y);
+
+		if (ovr_video_texture_y != 0)
+		{
+			glBindTexture(GL_TEXTURE_2D, ovr_video_texture_y);			
+
+				if (count_calls == 1) 
+				{
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, txh->stride, txh->height, 0, GL_RGB, GL_UNSIGNED_BYTE, pY);
+				}
+				else 
+				{
+					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride, txh->height, GL_RGB, GL_UNSIGNED_BYTE, pY);
+				}
+
+				glBindTexture(GL_TEXTURE_2D, 0);				
+		}
+		else
+		{
+			// todo: try to reset it
+		}
+
+		//GLuint ovr_video_texture_u = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_U;
+		GLuint ovr_video_texture_u = gf_ovr_rift.video_texture_U;
+		fprintf(stderr, "gf_sc_texture_push_image, video_texture_U=%d\n", ovr_video_texture_u);
+
+		if (ovr_video_texture_u != 0)
+		{
+			glBindTexture(GL_TEXTURE_2D, ovr_video_texture_u);
+			
+				if (count_calls == 1) 
+				{
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, txh->stride / 2, txh->height / 2, 0, GL_RGB, GL_UNSIGNED_BYTE, pU);
+				}
+				else 
+				{
+					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride / 2, txh->height / 2, GL_RGB, GL_UNSIGNED_BYTE, pU);
+				}
+
+				glBindTexture(GL_TEXTURE_2D, 0);
+				
+		}
+		else
+		{
+			// todo: try to reset it
+		}
+
+		//GLuint ovr_video_texture_v = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_V;
+		GLuint ovr_video_texture_v = gf_ovr_rift.video_texture_V;
+		fprintf(stderr, "gf_sc_texture_push_image, video_texture_V=%d\n", ovr_video_texture_v);
+
+		if (ovr_video_texture_v != 0)
+		{
+			glBindTexture(GL_TEXTURE_2D, ovr_video_texture_v);
+			
+			if (count_calls == 1) 
+			{
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, txh->stride / 2, txh->height / 2, 0, GL_RGB, GL_UNSIGNED_BYTE, pV);
+			}
+			else 
+			{
+				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride / 2, txh->height / 2, GL_RGB, GL_UNSIGNED_BYTE, pV);
+			}
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+		else
+		{
+			// todo: try to reset it
+		}	
+		
+		// only one valid video texture for vr
+		break;
+	}
+
+	gf_ovr_rift_run2(&gf_ovr_rift, &gf_ovr_mirror, &gf_ovr_rift_mgr);
+
 
 #ifdef GF_SR_USE_VIDEO_CACHE
 	if (!compositor->video_cache_max_size)

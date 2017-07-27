@@ -1,7 +1,7 @@
 #ifndef OVR_RIFT_APP
 #define OVR_RIFT_APP
 
-#include<stdio.h>
+#include <stdio.h>
 
 #include <windows.h>
 
@@ -44,6 +44,11 @@ typedef struct RiftGLApp_
 	// scene sphere
 	SphereScene				sphere;
 
+	// handles for video textures (each channel one texture)
+	GLuint					video_texture_Y;
+	GLuint					video_texture_U;
+	GLuint					video_texture_V;
+
 } RiftGLApp;
 
 
@@ -60,6 +65,6 @@ int				gf_ovr_rift_run3(RiftGLApp* gf_ovr_RGA, GLFWApp* gf_ovr_GLA, RiftManagerA
 // scene
 void			gf_ovr_rift_sc_constructor(RiftGLApp* gf_ovr_RGA);
 void			gf_ovr_rift_sc_init_gl(RiftGLApp* gf_ovr_RGA, RiftManagerApp* gf_ovr_RMA);
-void			gf_ovr_rift_sc_render(RiftGLApp* gf_ovr_RGA, const ovrMatrix4f projection, const ovrMatrix4f headPose);
+void			gf_ovr_rift_sc_render(RiftGLApp* gf_ovr_RGA, const ovrMatrix4f projection, const ovrMatrix4f modelView);
 
 #endif

@@ -558,7 +558,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>C:\Users\Ahmed\libs\Oculus_SDK\LibOVR\Include;C:\Users\Ahmed\libs\glfw-3.2.1_WIN32\include;C:\Users\Ahmed\libs\glew-2.0.0\include;../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../extra_lib/include/glew;../../extra_lib/include/glfw;../../extra_lib/include/LibOVR;../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -580,7 +580,7 @@
     </ResourceCompile>
     <Lib>
       <OutputFile>../../bin/$(Platform)\$(Configuration)/libgpac_static.lib</OutputFile>
-      <AdditionalLibraryDirectories>C:\usr\LibOVR\project\src\LibOVR\OculusSDK\LibOVR\Lib\Windows\$(Platform)\Debug\VS2015;C:\usr\glfw-3.2.1.bin.WIN32\lib-vc2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
     <Bscmake>
@@ -596,7 +596,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../extra_lib/include/glew;../../extra_lib/include/glfw;../../extra_lib/include/LibOVR;../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GPAC_MP4BOX_MINI;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -634,7 +634,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../extra_lib/include/glew;../../extra_lib/include/glfw;../../extra_lib/include/LibOVR;../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32;_WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -675,7 +675,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../extra_lib/include/glew;../../extra_lib/include/glfw;../../extra_lib/include/LibOVR;../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GPAC_MP4BOX_MINI;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32;_WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -714,7 +714,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MinSpace</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../extra_lib/include/glew;../../extra_lib/include/glfw;../../extra_lib/include/LibOVR;../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -734,7 +734,7 @@
     <Lib>
       <OutputFile>../../bin/$(Platform)/$(Configuration)/libgpac_static.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>C:\usr\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\usr\LibOVR\project\src\LibOVR\OculusSDK\LibOVR\Lib\Windows\$(Platform)\Release\VS2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -749,7 +749,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MinSpace</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../extra_lib/include/glew;../../extra_lib/include/glfw;../../extra_lib/include/LibOVR;../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GPAC_MP4BOX_MINI;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -783,7 +783,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../extra_lib/include/glew;../../extra_lib/include/glfw;../../extra_lib/include/LibOVR;../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32;_WIN64;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -818,7 +818,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../extra_lib/include/glew;../../extra_lib/include/glfw;../../extra_lib/include/LibOVR;../../include;../../extra_lib/include/zlib;../../extra_lib/include/js;../../extra_lib/include/jpeg;../../extra_lib/include/png;../../extra_lib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GPAC_MP4BOX_MINI;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32;_WIN64;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>

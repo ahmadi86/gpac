@@ -276,8 +276,8 @@ GLuint gf_ovr_sphere_load_shaders(void)
 {
 	fprintf(stderr, "%s\n", __FUNCTION_NAME__);
 
-	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
 	/*
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
 	glDebugMessageCallbackARB(DebugCallback, 0);
 	glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
 	*/
