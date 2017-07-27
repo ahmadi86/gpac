@@ -46,6 +46,8 @@ static void gf_sc_recompute_ar(GF_Compositor *compositor, GF_Node *top_node);
 #define SC_DEF_WIDTH	320
 #define SC_DEF_HEIGHT	240
 
+#define GL_CHECK_ERR  {s32 res = glGetError(); if (res) fprintf(stderr, "GL Error %d file %s line %d\n", res, __FILE__, __LINE__); }
+
 void gf_sc_next_frame_state(GF_Compositor *compositor, u32 state)
 {
 //	GF_LOG(GF_LOG_DEBUG, GF_LOG_COMPOSE, ("[Compositor] Forcing frame redraw state: %d\n", state));
@@ -2366,17 +2368,21 @@ static void gf_sc_draw_scene(GF_Compositor *compositor)
 		if (ovr_video_texture_y != 0)
 		{
 			glBindTexture(GL_TEXTURE_2D, ovr_video_texture_y);			
+			GL_CHECK_ERR
 
 				if (count_calls == 1) 
 				{
-					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, txh->stride, txh->height, 0, GL_RGB, GL_UNSIGNED_BYTE, pY);
+					glTexImage2D(GL_TEXTURE_2D, 0, 1, txh->stride, txh->height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, pY);
+					GL_CHECK_ERR
 				}
 				else 
 				{
-					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride, txh->height, GL_RGB, GL_UNSIGNED_BYTE, pY);
+					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride, txh->height, GL_LUMINANCE, GL_UNSIGNED_BYTE, pY);
+					GL_CHECK_ERR
 				}
 
 				glBindTexture(GL_TEXTURE_2D, 0);				
+				GL_CHECK_ERR
 		}
 		else
 		{
@@ -2393,11 +2399,11 @@ static void gf_sc_draw_scene(GF_Compositor *compositor)
 			
 				if (count_calls == 1) 
 				{
-					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, txh->stride / 2, txh->height / 2, 0, GL_RGB, GL_UNSIGNED_BYTE, pU);
+					glTexImage2D(GL_TEXTURE_2D, 0, 1, txh->stride / 2, txh->height / 2, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, pU);
 				}
 				else 
 				{
-					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride / 2, txh->height / 2, GL_RGB, GL_UNSIGNED_BYTE, pU);
+					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride / 2, txh->height / 2, GL_LUMINANCE, GL_UNSIGNED_BYTE, pU);
 				}
 
 				glBindTexture(GL_TEXTURE_2D, 0);
@@ -2418,11 +2424,11 @@ static void gf_sc_draw_scene(GF_Compositor *compositor)
 			
 			if (count_calls == 1) 
 			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, txh->stride / 2, txh->height / 2, 0, GL_RGB, GL_UNSIGNED_BYTE, pV);
+				glTexImage2D(GL_TEXTURE_2D, 0, 1, txh->stride / 2, txh->height / 2, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, pV);
 			}
 			else 
 			{
-				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride / 2, txh->height / 2, GL_RGB, GL_UNSIGNED_BYTE, pV);
+				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride / 2, txh->height / 2, GL_LUMINANCE, GL_UNSIGNED_BYTE, pV);
 			}
 
 			glBindTexture(GL_TEXTURE_2D, 0);
