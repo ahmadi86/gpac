@@ -38,7 +38,7 @@ void gf_ovr_sphere_init(SphereScene* sphere, int rings, int sectors)
 
 	fprintf(stderr, "%s\n", __FUNCTION_NAME__);
 
-	sphere->radius = 1.0f;
+	sphere->radius = 5.0f;
 
 	ovrMatrix4f identity = ovrMatrix4f_CreateIdentity();
 
