@@ -8,7 +8,11 @@
 #include <OVR_CAPI.h>
 #include <OVR_CAPI_GL.h>
 
-#include <GL/glew.h>
+#include <Windows.h>
+//#include <GL/glew.h>
+//#include <GL/GL.h>
+//#include <GL/glext.h>
+
 #include <GLFW/glfw3.h>
 //#include <kazmath\kazmath.h>
 

@@ -76,6 +76,7 @@ void ovr_glfw_post_create(GLFWApp *gf_ovr_GLA) {
 	glfwSetWindowUserPointer(gf_ovr_GLA->window, gf_ovr_GLA->window);
 	glfwMakeContextCurrent(gf_ovr_GLA->window);
 
+	/*
 	// Initialize the OpenGL bindings
 	// For some reason we have to set this experminetal flag to properly
 	// init GLEW if we use a core context.
@@ -95,6 +96,7 @@ void ovr_glfw_post_create(GLFWApp *gf_ovr_GLA) {
 			glDebugMessageCallback(glDebugCallbackHandler, gf_ovr_GLA);
 		}
 	}
+	*/
 }
 
 void ovr_glfw_init_gl(void) {

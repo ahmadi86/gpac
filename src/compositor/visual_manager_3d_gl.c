@@ -146,6 +146,18 @@ GLDECL_STATIC(glVertexAttribPointer);
 GLDECL_STATIC(glVertexAttribIPointer);
 #endif
 
+// Ahmed
+GLDECL_STATIC(glGenVertexArrays);
+GLDECL_STATIC(glBindVertexArray);
+GLDECL_STATIC(glGenFramebuffers);
+GLDECL_STATIC(glGenRenderbuffers);
+GLDECL_STATIC(glBindFramebuffer);
+GLDECL_STATIC(glBindRenderbuffer);
+GLDECL_STATIC(glRenderbufferStorage);
+GLDECL_STATIC(glBlitFramebuffer);
+GLDECL_STATIC(glFramebufferTexture2D);
+GLDECL_STATIC(glFramebufferRenderbuffer);
+
 #endif //LOAD_GL_2_0
 
 void gf_sc_load_opengl_extensions(GF_Compositor *compositor, Bool has_gl_context)

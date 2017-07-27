@@ -1,4 +1,7 @@
-#include <gpac/rift_app.h>"
+#include <gpac/rift_app.h>
+
+#include <gpac/setup.h>
+#include "../Src/compositor/gl_inc.h"
 
 #ifdef _MSC_VER
 #define __FUNCTION_NAME__ __FUNCTION__

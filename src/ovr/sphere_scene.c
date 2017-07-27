@@ -4,6 +4,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <gpac/stb_image.h>
 
+#include <gpac/setup.h>
+#include "../Src/compositor/gl_inc.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #else
@@ -37,6 +40,8 @@ void gf_ovr_sphere_init(SphereScene* sphere, int rings, int sectors)
 {
 
 	fprintf(stderr, "%s\n", __FUNCTION_NAME__);
+
+	sphere->radius = 1.0f;
 
 	ovrMatrix4f identity = ovrMatrix4f_CreateIdentity();
 
@@ -81,9 +86,9 @@ void gf_ovr_sphere_init(SphereScene* sphere, int rings, int sectors)
 
 			float theta = j * thetaStep;
 
-			float x = sphere->radius * sinf(SPHERE_PI) * cosf(theta);
-			float y = sphere->radius * cosf(SPHERE_PI);
-			float z = sphere->radius * sinf(SPHERE_PI) * sinf(theta);
+			float x = sphere->radius * sinf(phi) * cosf(theta);
+			float y = sphere->radius * cosf(phi);
+			float z = sphere->radius * sinf(phi) * sinf(theta);
 
 			float u = theta / SPHERE_2PI;
 			float v = phi / SPHERE_PI;
@@ -247,6 +252,7 @@ void gf_ovr_sphere_draw(SphereScene* sphere)
 		(void*)(offsetof(SphereVertex, texCoord))
 	);
 
+	/*
 	// now draw the triangles
 	glDrawElements(
 		GL_TRIANGLES,
@@ -254,6 +260,7 @@ void gf_ovr_sphere_draw(SphereScene* sphere)
 		GL_UNSIGNED_INT,
 		(void*)0
 	);
+	*/
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
@@ -270,8 +277,10 @@ GLuint gf_ovr_sphere_load_shaders(void)
 	fprintf(stderr, "%s\n", __FUNCTION_NAME__);
 
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
+	/*
 	glDebugMessageCallbackARB(DebugCallback, 0);
 	glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+	*/
 
 	FILE* file_v = fopen(GF_OVR_SPHERE_VERTEX_SHADER, "rb");
 

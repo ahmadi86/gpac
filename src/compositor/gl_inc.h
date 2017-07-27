@@ -509,6 +509,18 @@ GLDECL(GLint, glGetAttribLocation, (GLuint prog, const char *name) )
 
 #endif //GL_VERSION_2_0
 
+// Ahmed
+GLDECL(void, glGenVertexArrays, (GLsizei n, GLuint* arrays) )
+GLDECL(void, glBindVertexArray, (GLuint array) )
+GLDECL(void, glGenFramebuffers, (GLsizei n, GLuint* framebuffers) )
+GLDECL(void, glGenRenderbuffers, (GLsizei n, GLuint* renderbuffers) )
+GLDECL(void, glBindFramebuffer, (GLenum target, GLuint framebuffer) )
+GLDECL(void, glBindRenderbuffer, (GLenum target, GLuint renderbuffer) )
+GLDECL(void, glRenderbufferStorage, (GLenum target, GLenum internalformat, GLsizei width, GLsizei height) )
+GLDECL(void, glFramebufferRenderbuffer, (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) )
+GLDECL(void, glBlitFramebuffer, (GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) )
+GLDECL(void, glFramebufferTexture2D, (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) )
+
 #endif //GPAC_USE_GLES1X || GPAC_USE_GLES2
 
 #endif	/*GPAC_DISABLE_3D*/

@@ -10,7 +10,11 @@
 #include <OVR_CAPI.h>
 #include <OVR_CAPI_GL.h>
 
-#include <GL/glew.h>
+#include <Windows.h>
+//#include <GL/glew.h>
+#include <GL\GL.h>
+#include <GL\glext.h>
+
 
 #include "ovr_util.h"
 

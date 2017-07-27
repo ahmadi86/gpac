@@ -49,6 +49,9 @@
     <Filter Include="include\modules">
       <UniqueIdentifier>{d451e478-a766-4a33-a371-db9e1292017f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ovr">
+      <UniqueIdentifier>{041f68d8-a0ac-476c-af1f-ba9bdafa0d63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\win32\inttypes.h">
@@ -394,6 +397,24 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\gpac\webvtt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gpac\ovr_util.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gpac\stb_image.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gpac\sphere_scene.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gpac\glfw_app.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gpac\rift_manager_app.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gpac\rift_app.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1171,6 +1192,18 @@
     </ClCompile>
     <ClCompile Include="..\..\src\isomedia\iff.c">
       <Filter>isomedia</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ovr\sphere_scene.c">
+      <Filter>ovr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ovr\glfw_app.c">
+      <Filter>ovr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ovr\rift_app.c">
+      <Filter>ovr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ovr\rift_manager_app.c">
+      <Filter>ovr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
