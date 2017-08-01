@@ -2362,15 +2362,18 @@ static void gf_sc_draw_scene(GF_Compositor *compositor)
 		pV = pU + usize;
 
 		//GLuint ovr_video_texture_y = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_Y;
-		GLuint ovr_video_texture_y = gf_ovr_rift.video_texture_Y;
-		fprintf(stderr, "gf_sc_texture_push_image, video_texture_Y=%d\n", ovr_video_texture_y);
+		GLuint ovr_video_texture_y = gf_ovr_rift.sphere.video_texture_Y;
+		fprintf(stderr, "gf_sc_draw_scene, video_texture_Y=%d\n", ovr_video_texture_y);
 
 		if (ovr_video_texture_y != 0)
 		{
 			glBindTexture(GL_TEXTURE_2D, ovr_video_texture_y);			
 			GL_CHECK_ERR
 
-				if (count_calls == 1) 
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, txh->stride, txh->height, 0, GL_RED, GL_UNSIGNED_BYTE, pY);
+				GL_CHECK_ERR
+
+				/*if (count_calls == 1) 
 				{
 					glTexImage2D(GL_TEXTURE_2D, 0, 1, txh->stride, txh->height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, pY);
 					GL_CHECK_ERR
@@ -2379,7 +2382,7 @@ static void gf_sc_draw_scene(GF_Compositor *compositor)
 				{
 					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride, txh->height, GL_LUMINANCE, GL_UNSIGNED_BYTE, pY);
 					GL_CHECK_ERR
-				}
+				}*/
 
 				glBindTexture(GL_TEXTURE_2D, 0);				
 				GL_CHECK_ERR
@@ -2390,21 +2393,24 @@ static void gf_sc_draw_scene(GF_Compositor *compositor)
 		}
 
 		//GLuint ovr_video_texture_u = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_U;
-		GLuint ovr_video_texture_u = gf_ovr_rift.video_texture_U;
-		fprintf(stderr, "gf_sc_texture_push_image, video_texture_U=%d\n", ovr_video_texture_u);
+		GLuint ovr_video_texture_u = gf_ovr_rift.sphere.video_texture_U;
+		fprintf(stderr, "gf_sc_draw_scene, video_texture_U=%d\n", ovr_video_texture_u);
 
 		if (ovr_video_texture_u != 0)
 		{
 			glBindTexture(GL_TEXTURE_2D, ovr_video_texture_u);
 			
-				if (count_calls == 1) 
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, txh->stride / 2, txh->height / 2, 0, GL_RED, GL_UNSIGNED_BYTE, pU);
+			GL_CHECK_ERR
+
+				/*if (count_calls == 1) 
 				{
 					glTexImage2D(GL_TEXTURE_2D, 0, 1, txh->stride / 2, txh->height / 2, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, pU);
 				}
 				else 
 				{
 					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride / 2, txh->height / 2, GL_LUMINANCE, GL_UNSIGNED_BYTE, pU);
-				}
+				}*/
 
 				glBindTexture(GL_TEXTURE_2D, 0);
 				
@@ -2415,21 +2421,24 @@ static void gf_sc_draw_scene(GF_Compositor *compositor)
 		}
 
 		//GLuint ovr_video_texture_v = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_V;
-		GLuint ovr_video_texture_v = gf_ovr_rift.video_texture_V;
-		fprintf(stderr, "gf_sc_texture_push_image, video_texture_V=%d\n", ovr_video_texture_v);
+		GLuint ovr_video_texture_v = gf_ovr_rift.sphere.video_texture_V;
+		fprintf(stderr, "gf_sc_draw_scene, video_texture_V=%d\n", ovr_video_texture_v);
 
 		if (ovr_video_texture_v != 0)
 		{
 			glBindTexture(GL_TEXTURE_2D, ovr_video_texture_v);
 			
-			if (count_calls == 1) 
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, txh->stride / 2, txh->height / 2, 0, GL_RED, GL_UNSIGNED_BYTE, pV);
+			GL_CHECK_ERR
+
+			/*if (count_calls == 1) 
 			{
 				glTexImage2D(GL_TEXTURE_2D, 0, 1, txh->stride / 2, txh->height / 2, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, pV);
 			}
 			else 
 			{
 				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, txh->stride / 2, txh->height / 2, GL_LUMINANCE, GL_UNSIGNED_BYTE, pV);
-			}
+			}*/
 
 			glBindTexture(GL_TEXTURE_2D, 0);
 		}
@@ -2442,7 +2451,23 @@ static void gf_sc_draw_scene(GF_Compositor *compositor)
 		break;
 	}
 
+	
+	fprintf(stderr, "gf_sc_draw_scene, count calls=%d\n", count_calls);
+
+	if (count_calls > 240 && gf_ovr_rift.shouldStop == 0)
+		gf_ovr_rift.shouldStop = 1;
+
 	gf_ovr_rift_run2(&gf_ovr_rift, &gf_ovr_mirror, &gf_ovr_rift_mgr);
+
+	if (gf_ovr_rift.shouldStop > 0)
+	{
+		GF_Event evt;
+		memset(&evt, 0, sizeof(GF_Event));
+		evt.type = GF_EVENT_QUIT;
+		evt.message.error = 0;
+		evt.message.message = "";
+		gf_term_send_event(compositor->term, &evt);
+	}
 
 
 #ifdef GF_SR_USE_VIDEO_CACHE

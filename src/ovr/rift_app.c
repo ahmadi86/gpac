@@ -15,6 +15,8 @@ void gf_ovr_rift_constructor(RiftGLApp *gf_ovr_RGA, GLFWApp *gf_ovr_GLA, RiftMan
 
 	gf_ovr_RGA->_eyeTexture = NULL;
 
+	gf_ovr_RGA->shouldStop = 0;
+
 	printf("%s: Call ovr_rift_manager_constructor\n", __FUNCTION_NAME__);
 	gf_ovr_rift_manager_constructor(gf_ovr_RMA);
 
@@ -154,32 +156,38 @@ int gf_ovr_rift_init_gl(RiftGLApp *gf_ovr_RGA, RiftManagerApp *gf_ovr_RMA)
 
 	// video texture	
 	// Y
-	gf_ovr_RGA->video_texture_Y = 0;
-	glGenTextures(1, &gf_ovr_RGA->video_texture_Y);
-	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->video_texture_Y);
+	gf_ovr_RGA->sphere.video_texture_Y = 0;
+	glGenTextures(1, &gf_ovr_RGA->sphere.video_texture_Y);
+	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->sphere.video_texture_Y);
 	//	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	// U
-	gf_ovr_RGA->video_texture_U = 0;
-	glGenTextures(1, &gf_ovr_RGA->video_texture_U);
-	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->video_texture_U);
+	gf_ovr_RGA->sphere.video_texture_U = 0;
+	glGenTextures(1, &gf_ovr_RGA->sphere.video_texture_U);
+	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->sphere.video_texture_U);
 	//	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	// V
-	gf_ovr_RGA->video_texture_V = 0;
-	glGenTextures(1, &gf_ovr_RGA->video_texture_V);
-	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->video_texture_V);
+	gf_ovr_RGA->sphere.video_texture_V = 0;
+	glGenTextures(1, &gf_ovr_RGA->sphere.video_texture_V);
+	glBindTexture(GL_TEXTURE_2D, gf_ovr_RGA->sphere.video_texture_V);
 	//	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -222,36 +230,61 @@ int gf_ovr_rift_run1(RiftGLApp *gf_ovr_RGA, GLFWApp *gf_ovr_GLA, RiftManagerApp 
 int gf_ovr_rift_run2(RiftGLApp *gf_ovr_RGA, GLFWApp *gf_ovr_GLA, RiftManagerApp *gf_ovr_RMA)
 {
 	//fprintf(stderr, "gf_ovr_RGA_run2, window = %d\n", gf_ovr_GLA->window);
+	
 
-	if (gf_ovr_GLA->window != NULL)
+	if (gf_ovr_RGA->shouldStop <= 1)
 	{
-		//fprintf(stderr, "gf_ovr_RGA_run2, window not null\n");
+		fprintf(stderr, "gf_ovr_RGA_run2, shouldStop = %d\n", gf_ovr_RGA->shouldStop);
+
+		if (gf_ovr_GLA->window != NULL)
+		{
+			//fprintf(stderr, "gf_ovr_RGA_run2, window not null\n");
 
 
-		// If this function is not run in a seperate thread, then we should consider changing while to if   
-		if (!glfwWindowShouldClose(gf_ovr_GLA->window)) {
+			// If this function is not run in a seperate thread, then we should consider changing while to if   
+			if (!glfwWindowShouldClose(gf_ovr_GLA->window)) {
 
-			//fprintf(stderr, "ovr_rift_run2, valid window\n");
+				//fprintf(stderr, "ovr_rift_run2, valid window\n");
 
-			++gf_ovr_GLA->frame;
+				++gf_ovr_GLA->frame;
 
-			//fprintf(stderr, "ovr_rift_run2, call glfwPollEvents, frame=%d\n", gf_ovr_GLA->frame);
-			glfwPollEvents();
+				//fprintf(stderr, "ovr_rift_run2, call glfwPollEvents, frame=%d\n", gf_ovr_GLA->frame);
+				glfwPollEvents();
 
-			//printf("ovr_rift_run2, call ovr_rift_update\n");
-			ovr_glfw_update();
+				//printf("ovr_rift_run2, call ovr_rift_update\n");				
+				ovr_glfw_update();
 
-			//printf("ovr_rift_run2, call ovr_rift_draw\n");
-			gf_ovr_rift_draw(gf_ovr_RGA, gf_ovr_GLA, gf_ovr_RMA);
+				//printf("ovr_rift_run2, call ovr_rift_draw\n");
+				gf_ovr_rift_draw(gf_ovr_RGA, gf_ovr_GLA, gf_ovr_RMA);
 
-			//	printf("gf_ovr_RGA_run2, call gf_ovr_GLA_finishFrame\n");
-			ovr_glfw_finish_frame(gf_ovr_GLA);
+				//	printf("gf_ovr_RGA_run2, call gf_ovr_GLA_finishFrame\n");
+				ovr_glfw_finish_frame(gf_ovr_GLA);
+			}
+		}
+		else
+		{
+			fprintf(stderr, "%s: window is NULL\n", __FUNCTION_NAME__);
 		}
 	}
-	else
+	
+	if (gf_ovr_RGA->shouldStop == 1)
 	{
-		fprintf(stderr, "%s: window is NULL\n", __FUNCTION_NAME__);
+		gf_ovr_RGA->shouldStop = 2;
+
+		gf_ovr_rift_run3(gf_ovr_RGA, gf_ovr_GLA, gf_ovr_RMA);
+
+		ovr_glfw_destroy_window(gf_ovr_GLA);
+
+
+		ovr_DestroyTextureSwapChain(gf_ovr_RMA->_session, gf_ovr_RGA->_eyeTexture);
+		ovr_DestroyMirrorTexture(gf_ovr_RMA->_session, gf_ovr_RGA->_mirrorTexture);
+
+		ovr_Destroy(gf_ovr_RMA->_session);
+		gf_ovr_RMA->_session = NULL;
+
+		gf_ovr_rift_shutdown();
 	}
+
 	return 0;
 }
 
@@ -329,7 +362,7 @@ void gf_ovr_rift_draw(RiftGLApp *gf_ovr_RGA, GLFWApp *gf_ovr_GLA, RiftManagerApp
 		const ovrRecti vp = gf_ovr_RGA->_sceneLayer.Viewport[eye];
 		glViewport(vp.Pos.x, vp.Pos.y, vp.Size.w, vp.Size.h);
 		gf_ovr_RGA->_sceneLayer.RenderPose[eye] = eyePoses[eye];
-
+		
 		gf_ovr_rift_sc_render(gf_ovr_RGA, gf_ovr_RGA->_eyeProjections[eye], gf_ovr_get_model_view(eyePoses[eye]));
 	}
 
@@ -382,6 +415,6 @@ void gf_ovr_rift_sc_render(RiftGLApp *gf_ovr_RGA, const ovrMatrix4f projection, 
 	ovrMatrix4f tmp = ovrMatrix4f_Inverse(&modelView);
 	gf_ovr_RGA->sphere.model_view = ovrMatrix4f_Transpose(&tmp);
 
-	gf_ovr_sphere_draw(&gf_ovr_RGA->sphere);
+	gf_ovr_sphere_draw(&gf_ovr_RGA->sphere, gf_ovr_RGA->shouldStop);
 
 }

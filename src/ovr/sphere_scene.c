@@ -16,7 +16,6 @@
 #define __FUNCTION_NAME__ __func__
 #endif
 
-
 // TODO figure out alternative in Linux
 static void APIENTRY DebugCallback
 (
@@ -64,6 +63,10 @@ void gf_ovr_sphere_init(SphereScene* sphere, int rings, int sectors)
 	sphere->h_texMatUniform = glGetUniformLocation(sphere->h_shaderProg, "tex_mat");
 	sphere->h_srcFmtUnifrom = glGetUniformLocation(sphere->h_shaderProg, "src_fmt");
 	sphere->h_texUniform = glGetUniformLocation(sphere->h_shaderProg, "tex");
+
+	sphere->h_yPlaneUniform = glGetUniformLocation(sphere->h_shaderProg, "y_plane");
+	sphere->h_uPlaneUniform = glGetUniformLocation(sphere->h_shaderProg, "u_plane");
+	sphere->h_vPlaneUniform = glGetUniformLocation(sphere->h_shaderProg, "v_plane");
 
 	float phiStep = SPHERE_PI / rings;
 	float thetaStep = SPHERE_2PI / sectors;
@@ -208,8 +211,14 @@ void gf_ovr_sphere_load_texture(SphereScene* sphere)
 	fprintf(stderr, "%s: Texture created!\n", __FUNCTION_NAME__);
 }
 
-void gf_ovr_sphere_draw(SphereScene* sphere)
+void gf_ovr_sphere_draw(SphereScene* sphere, int draw)
 {
+	if (draw != 0)
+	{
+		glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		return;
+	}
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// use our shader
@@ -219,11 +228,24 @@ void gf_ovr_sphere_draw(SphereScene* sphere)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, sphere->h_texture);
 
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, sphere->video_texture_Y);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, sphere->video_texture_U);
+
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, sphere->video_texture_V);
+
 	glUniformMatrix4fv(sphere->h_projUniform, 1, GL_FALSE, &sphere->projection.M[0][0]);
 	glUniformMatrix4fv(sphere->h_modelViewUniform, 1, GL_FALSE, &sphere->model_view.M[0][0]);
-	glUniform1i(sphere->h_texUniform, 0);  // texture bound to GL_TEXTURE0
-	glUniform1f(sphere->h_srcFmtUnifrom, 0);
+	glUniform1f(sphere->h_srcFmtUnifrom, 2);
 	glUniformMatrix4fv(sphere->h_texMatUniform, 1, GL_FALSE, &sphere->texMat.M[0][0]);
+
+	glUniform1i(sphere->h_texUniform, 0);  // texture bound to GL_TEXTURE0
+	glUniform1i(sphere->h_yPlaneUniform, 1);  
+	glUniform1i(sphere->h_uPlaneUniform, 2);
+	glUniform1i(sphere->h_vPlaneUniform, 3);
 
 	glBindVertexArray(sphere->h_vao);
 

@@ -55,6 +55,10 @@ typedef struct SphereScene_
 	GLuint					h_texMatUniform;
 	GLuint					h_srcFmtUnifrom;
 
+	GLuint					h_yPlaneUniform;
+	GLuint					h_uPlaneUniform;
+	GLuint					h_vPlaneUniform;
+
 	// these will be passed to vertex shader
 	ovrMatrix4f				model_view;
 	ovrMatrix4f				projection;
@@ -62,11 +66,16 @@ typedef struct SphereScene_
 	//
 	ovrMatrix4f				texMat;
 
+	// handles for video textures (each channel one texture)
+	GLuint					video_texture_Y;
+	GLuint					video_texture_U;
+	GLuint					video_texture_V;
+
 } SphereScene;
 
 
 void			gf_ovr_sphere_init(SphereScene* sphere, int rings, int sectors);
-void			gf_ovr_sphere_draw(SphereScene* sphere);
+void			gf_ovr_sphere_draw(SphereScene* sphere, int draw);
 void			gf_ovr_sphere_load_texture(SphereScene* sphere);
 GLuint			gf_ovr_sphere_load_shaders(void);
 

@@ -1251,7 +1251,7 @@ Bool gf_sc_texture_push_image(GF_TextureHandler *txh, Bool generate_mipmaps, Boo
 			do_tex_image_2d(txh, tx_mode, first_load, pY, stride_luma, w, h, txh->tx_io->pbo_id);
 			GL_CHECK_ERR
 
-			GLuint ovr_video_texture_y = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_Y;
+			GLuint ovr_video_texture_y = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->sphere.video_texture_Y;
 			fprintf(stderr, "gf_sc_texture_push_image, video_texture_Y=%d\n", ovr_video_texture_y);
 
 			if (ovr_video_texture_y != 0)
@@ -1295,7 +1295,7 @@ Bool gf_sc_texture_push_image(GF_TextureHandler *txh, Bool generate_mipmaps, Boo
 				do_tex_image_2d(txh, tx_mode, first_load, pV, stride_chroma, w/2, h/2, txh->tx_io->v_pbo_id);
 				GL_CHECK_ERR
 
-				GLuint ovr_video_texture_u = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_U;
+				GLuint ovr_video_texture_u = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->sphere.video_texture_U;
 				fprintf(stderr, "gf_sc_texture_push_image, video_texture_U=%d\n", ovr_video_texture_u);
 
 				if (ovr_video_texture_u != 0)
@@ -1316,7 +1316,7 @@ Bool gf_sc_texture_push_image(GF_TextureHandler *txh, Bool generate_mipmaps, Boo
 						GL_CHECK_ERR
 				}
 
-				GLuint ovr_video_texture_v = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->video_texture_V;
+				GLuint ovr_video_texture_v = ((RiftGLApp *)(txh->compositor->gf_ovr_rift))->sphere.video_texture_V;
 				fprintf(stderr, "gf_sc_texture_push_image, video_texture_V=%d\n", ovr_video_texture_v);
 
 				if (ovr_video_texture_v != 0)
